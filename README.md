@@ -27,6 +27,7 @@ $ yarn add vuex-typescript
 ### Component
 
 ```js
+// header-panel.ts
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'types-vue';
 
@@ -40,6 +41,51 @@ export default class Header extends Vue {
         console.log('title is ' + value);
     }
 }
+```
+
+```html
+<!-- header-panel.vue -->
+<template>
+    <div>
+        <h1>{{ title }}</h1>
+    </div>
+</template>
+<script src="./header-panel.ts"></script>
+```
+
+```js
+// demo.ts
+import Vue from 'vue';
+import { Component, Watch } from 'types-vue';
+import HeaderPanel from './header-panel.vue';
+
+@Component({
+    components: {
+        'header-panel': HeaderPanel
+    }
+})
+export default class NotificationPanelComponent extends Vue {
+    title: string = 'Hello Vue from typescript';
+
+    @Watch('title')
+    onTitleChanged(value: string) {
+        console.log('in demo the title is ' + value);
+    }
+}
+```
+
+```html
+<!-- demo.vue -->
+<template>
+    <div>
+        <header-panel :title="title" :kk="title" />
+        <p>
+            <span>Change the title:</span>
+            <input type="text" v-model="title" />
+        </p>
+    </div>
+</template>
+<script src="./demo.ts"></script>
 ```
 
 ### Vuex
@@ -123,8 +169,10 @@ export default class NotificationPanelComponent extends Vue {
 ```html
 <!-- counter-panel.ts -->
 <template>
-    <p>The counter is {{ counter }}</p>
-    <button v-on:click="incr(1)">Add 1</button>
+    <div>
+        <p>The counter is {{ counter }}</p>
+        <button v-on:click="incr(1)">Add 1</button>
+    </div>
 </template>
 <script src="./counter-panel.ts"></script>
 ```
