@@ -1,0 +1,40 @@
+{
+  "name": "types-vue",
+  "version": "1.0.2",
+  "description": "Vue typescript decorators",
+  "main": "lib/types-vue.umd.js",
+  "types": "lib/types-vue.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:prod": "rollup -c"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fernandoescolar/types-vue"
+  },
+  "keywords": [
+    "vue",
+    "typescript",
+    "decorators"
+  ],
+  "author": {
+    "name": "Fernando Escolar",
+    "email": "f.escolar@hotmail.com",
+    "url": "http://fernandoescolar.github.io/"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "vue-class-component": "^6.2.0"
+  },
+  "devDependencies": {
+    "rollup": "^0.50.0",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-typescript": "^0.8.1",
+    "typescript": "^2.6.1",
+    "vue": "^2.5.16",
+    "vuex": "^3.0.1"
+  }
+}

@@ -1,20 +1,134 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# types-vue
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+Binding helpers for Vuex and vue-class-component
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Dependencies
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+- [Vue](https://github.com/vuejs/vue)
+- [Vuex](https://github.com/vuejs/vuex)
+- [vue-class-component](https://github.com/vuejs/vue-class-component)
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://www.visualstudio.com/en-us/docs/git/create-a-readme). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Based on
+
+- [vue-property-decorator](https://github.com/kaorun343/vue-property-decorator)
+- [vuex-class](https://github.com/ktsn/vuex-class)
+- [vuex-module-decorators](https://github.com/championswimmer/vuex-module-decorators)
+
+## Installation
+
+```bash
+$ npm install --save types-vue
+# or
+$ yarn add vuex-typescript
+```
+
+## Example
+
+### Component
+
+```js
+import Vue from 'vue';
+import { Component, Prop, Watch } from 'types-vue';
+
+@Component
+export default class Header extends Vue {
+    @Prop()
+    title!: string;
+
+    @Watch('title')
+    onTitleChanged(value: string) {
+        console.log('title is ' + value);
+    }
+}
+```
+
+### Vuex
+
+```js
+// counterModule.ts
+import { Module, VuexModule, Mutation, Action, Getter } from 'types-vue';
+
+@Module({ namespaced: true })
+export default class extends VuexModule {
+    _counter: number = 0;
+
+    @Getter()
+    counter(): number {
+        return this._counter;
+    }
+
+    @Mutation()
+    increment(value: number): void {
+        this._counter += value;
+    }
+
+    @Mutation()
+    decrement(value: number): void {
+        this._counter -= value;
+    }
+
+    @Action({ commit: 'increment' })
+    incr(value: number): number {
+        if (value < 0) {
+            return 0;
+        }
+
+        return value;
+    }
+
+    @Action({ commit: 'decrement' })
+    decr(value: number): number {
+        if (value < 0) {
+            return 0;
+        }
+
+        return value;
+    }
+}
+```
+
+```js
+// store.ts
+import Vue from 'vue';
+import Vuex, { Store } from 'vuex';
+import counter from './counterModule';
+
+Vue.use(Vuex);
+
+const store = new Store({
+    state: {},
+    modules: {
+        counter
+    }
+});
+
+export default store;
+```
+
+```js
+// counter-panel.ts
+import Vue from 'vue';
+import { Component, MapGetter, MapAction } from 'types-vue';
+
+@Component
+export default class NotificationPanelComponent extends Vue {
+    @MapGetter({ namespace: 'counter' })
+    counter;
+
+    @MapAction({ namespace: 'counter' })
+    incr;
+}
+```
+
+```html
+<!-- counter-panel.ts -->
+<template>
+    <p>The counter is {{ counter }}</p>
+    <button v-on:click="incr(1)">Add 1</button>
+</template>
+<script src="./counter-panel.ts"></script>
+```
+
+## License
+
+MIT
