@@ -22,14 +22,224 @@ $ npm install --save types-vue
 $ yarn add vuex-typescript
 ```
 
-## Example
+## Usage
+
+There are these decorators for a component:
+
+- Component (from 'vue-class-component')
+- Prop
+- Watch
+- MapGetter
+- MapAction
+
+And these decorators for a vuex module:
+
+- Module
+- Getter
+- Mutation
+- Action
+
+### Component
+
+#### @Prop
+
+This decorator adds the field to "props" component collection. It can be invoked in different ways:
+
+1. Without parameters
+2. With the type constructor (ex. Number, String, Boolean...)
+3. With PropOptions:
+   - type: type constructor (ex. Number, String, Boolean...)
+   - required: boolean
+   - default: defaul value of the prop
+   - validator: a validator function
+
+```js
+import { Vue, Component, Prop } from 'types-vue';
+
+@Component
+export default class MyComponent extends Vue {
+    @Prop()
+    title!: string;
+
+    @Prop(Number)
+    count!: number;
+
+    @Prop({
+        type: String,
+        required: false,
+        default: 'someone@mail.com',
+        validator(value: string): boolean {
+            return true;
+        }
+    })
+    email!: string;
+}
+```
+
+This is like:
+
+```js
+export default {
+  props: {
+    title: { },
+    count: Number,
+    email: {
+        type: String,
+        required: false,
+        default: 'someone@mail.com',
+        validator(value: string): boolean {
+            return true;
+        }
+    },
+  }
+}
+```
+
+#### @Watch
+
+This decorator adds the method to "watch" component collection. It can be invoked in different ways:
+
+1. With the name of the property to watch.
+2. With the name of the property to watch and WatchOptions:
+   - deep: boolean
+   - inmediate: boolean
+
+```js
+import { Vue, Component, Watch } from 'types-vue';
+
+@Component
+export default class MyComponent extends Vue {
+    title: string = 'hello';
+    counter: number = 0;
+
+    @Watch('title')
+    onTitleChanged(value: string): void {
+        console.log('title is ' + value);
+    }
+
+    @Watch('counter', { deep: true, immediate: true })
+    onCounterChanged(value: number, oldValue: number): void {
+        console.log('counter is ' + value.toString());
+    }
+}
+```
+
+This is like:
+
+```js
+export default {
+  props: {
+    data() {
+        return {
+            title: 'hello',
+            counter: 0
+        };
+    }
+    watch: {
+        'title': {
+            handler: 'onTitleChanged',
+            immediate: false,
+            deep: false
+        },
+        'counter': {
+            handler: 'onCounterChanged',
+            immediate: true,
+            deep: true
+        }
+    },
+    methods: {
+        onTitleChanged(value) {  
+            console.log('title is ' + value);
+        },
+        onCounterChanged(value, oldValue) {
+            console.log('counter is ' + value.toString());
+        }
+    }
+  }
+}
+```
+
+#### @MapGetter
+
+When you are using Vuex, this decorator adds the field to "computed" as a vuex mapGetter in the component. It can be invoked in different ways:
+
+1. Without parameters
+2. With MapGetterOptions:
+   - namespace: the name of the module namespace
+
+```js
+import { Vue, Component, MapGetter } from 'types-vue';
+
+@Component
+export default class MyComponent extends Vue {
+    @MapGetter()
+    title: string;
+
+    @MapGetter({ namespace: 'counter' })
+    count: number;
+}
+```
+
+This is like:
+
+```js
+export default {
+  computed: {
+    ...mapGetters(['title']),
+    ...mapGetters('counter', ['count'])
+  }
+}
+```
+
+#### @MapAction
+
+When you are using Vuex, this decorator adds the field to "methods" as a vuex mapAction in the component. It can be invoked in different ways:
+
+1. Without parameters
+2. With MapActionOptions:
+   - namespace: the name of the module namespace
+
+```js
+import { Vue, Component, MapAction } from 'types-vue';
+
+@Component
+export default class MyComponent extends Vue {
+    @MapAction()
+    changeTitle: any;
+
+    @MapAction({ namespace: 'counter' })
+    increment: (val: number) => void;
+}
+```
+
+This is like:
+
+```js
+export default {
+  methods: {
+    ...mapActtions(['changeTitle']),
+    ...mapActtions('counter', ['increment'])
+  }
+}
+```
+
+### Vuex Module
+
+#### @Module
+
+#### @Getter
+
+#### @Mutation
+
+#### @Action
+
+## Examples
 
 ### Component
 
 ```js
 // header-panel.ts
-import Vue from 'vue';
-import { Component, Prop, Watch } from 'types-vue';
+import { Vue, Component, Prop, Watch } from 'types-vue';
 
 @Component
 export default class Header extends Vue {
@@ -55,8 +265,7 @@ export default class Header extends Vue {
 
 ```js
 // demo.ts
-import Vue from 'vue';
-import { Component, Watch } from 'types-vue';
+import { Vue, Component, Watch } from 'types-vue';
 import HeaderPanel from './header-panel.vue';
 
 @Component({
@@ -153,8 +362,7 @@ export default store;
 
 ```js
 // counter-panel.ts
-import Vue from 'vue';
-import { Component, MapGetter, MapAction } from 'types-vue';
+import { Vue, Component, MapGetter, MapAction } from 'types-vue';
 
 @Component
 export default class NotificationPanelComponent extends Vue {

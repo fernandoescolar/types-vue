@@ -6,7 +6,7 @@ export interface MapActionOptions {
     namespace?: string;
 }
 
-export function MapAction(options: (MapActionOptions | Constructor[] | Constructor) = {}): PropertyDecorator {
+export function MapAction(options: MapActionOptions = {}): PropertyDecorator {
     const { namespace = undefined } = <MapActionOptions>options;
 
     return createDecorator((componentOptions, k) => {

@@ -6,7 +6,7 @@ export interface MapGetterOptions {
     namespace?: string;
 }
 
-export function MapGetter(options: (MapGetterOptions | Constructor[] | Constructor) = {}): PropertyDecorator {
+export function MapGetter(options: MapGetterOptions = {}): PropertyDecorator {
     const { namespace = undefined } = <MapGetterOptions>options;
 
     return createDecorator((componentOptions, k) => {
