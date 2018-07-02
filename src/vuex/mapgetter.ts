@@ -1,6 +1,5 @@
 import { mapGetters } from 'vuex';
 import { createDecorator } from 'vue-class-component';
-import { Constructor } from 'vue/types/options';
 
 export interface MapGetterOptions {
     namespace?: string;

@@ -19,7 +19,7 @@ Binding helpers for Vuex and vue-class-component
 ```bash
 $ npm install --save types-vue
 # or
-$ yarn add vuex-typescript
+$ yarn add types-vue
 ```
 
 ## Usage
@@ -227,13 +227,159 @@ export default {
 
 #### @Module
 
+If you are using Vuex, and you want to create a new module, you can use the Module decorator and extends the VuexModule class. You can call the Module decorator:
+
+1. Without parameters
+2. With ModuleOptions:
+   - name: the namespace name of the module;
+   - namespaced: a boolean value to set if you are going to use namespacing in this vuex module;
+
+```js
+import { Module, VuexModule } from 'types-vue';
+
+@Module({ namespaced: true })
+export default class extends VuexModule {
+    counter: number = 0;
+}
+```
+
+This is like:
+
+```js
+export default {
+  namespaced: true,
+  state: {
+      counter: 0
+  }
+}
+```
+
 #### @Getter
+
+This decorator adds the method to "getters" vuex module collection.
+
+```js
+import { Module, VuexModule, Getter } from 'types-vue';
+
+@Module({ namespaced: true })
+export default class extends VuexModule {
+    _counter: number = 0;
+
+    @Getter()
+    counter(): number {
+        return this._counter;
+    }
+}
+```
+
+This is like:
+
+```js
+export default {
+  namespaced: true,
+  state: {
+      _counter: 0
+  },
+  getters: {
+      counter: function(state) {
+          return state._counter;
+      }
+  }
+}
+```
 
 #### @Mutation
 
+This decorator adds the method to "mutations" vuex module collection.
+
+```js
+import { Module, VuexModule, Mutation } from 'types-vue';
+
+@Module({ namespaced: true })
+export default class extends VuexModule {
+    _counter: number = 0;
+
+    @Mutation()
+    increment(value: number): void {
+        this._counter += value;
+    }
+}
+```
+
+This is like:
+
+```js
+export default {
+  namespaced: true,
+  state: {
+      _counter: 0
+  },
+  mutations: {
+      increment: function(state, value) {
+          state._counter += value;
+      }
+  }
+}
+```
+
 #### @Action
 
+This decorator adds the method to "actions" vuex module collection.
+
+```js
+import { Module, VuexModule, Mutation, Action } from 'types-vue';
+
+@Module({ namespaced: true })
+export default class extends VuexModule {
+    _counter: number = 0;
+
+    @Mutation()
+    increment(value: number): void {
+        this._counter += value;
+    }
+
+    @Action({ commit: 'increment' })
+    incr(value: number): number {
+        if (value < 0) {
+            return 0;
+        }
+
+        return value;
+    }
+}
+```
+
+This is like:
+
+```js
+export default {
+  namespaced: true,
+  state: {
+      _counter: 0
+  },
+  mutations: {
+      increment: function(state, value) {
+          state._counter += value;
+      }
+  },
+  actions: {
+      incr: function(context, value) {
+          let result = (value) => {
+                if (value < 0) {
+                    return 0;
+                }
+
+                return value;
+          }();
+          context.commit('increment', result);
+      }
+  }
+}
+```
+
 ## Examples
+
+You can see a complete demo project in the demo folder of this project. The code is like the following:
 
 ### Component
 

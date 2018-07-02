@@ -1,6 +1,5 @@
 import { mapActions } from 'vuex';
 import { createDecorator } from 'vue-class-component';
-import { Constructor } from 'vue/types/options';
 
 export interface MapActionOptions {
     namespace?: string;

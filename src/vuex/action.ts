@@ -23,7 +23,7 @@ function createActionFunction<T>(key: string, value: Function, options: ActionOp
     return action;
 }
 
-export function Action(options: (ActionOptions | Constructor[] | Constructor) = {}): MethodDecorator {
+export function Action(options: ActionOptions = {}): MethodDecorator {
     return createVuexDecorator((componentOptions, k, description) => {
         if (typeof componentOptions.actions !== 'object') {
             componentOptions.actions = Object.create(null);
