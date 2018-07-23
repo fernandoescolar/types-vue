@@ -16,4 +16,9 @@ export default class NotificationPanelComponent extends Vue {
     onTitleChanged(value: string) {
         console.log('in demo the title is ' + value);
     }
+
+    @Filter()
+    static changeIt(text: string): string {
+        return '!' + text;
+    }
 }

@@ -128,7 +128,6 @@ This is like:
 
 ```js
 export default {
-  props: {
     data() {
         return {
             title: 'hello',
@@ -153,6 +152,36 @@ export default {
         },
         onCounterChanged(value, oldValue) {
             console.log('counter is ' + value.toString());
+        }
+    }
+  }
+}
+```
+
+#### @Filter
+
+This decorator adds the method to "filters" component collection. 
+
+```js
+import { Vue, Component, Watch } from 'types-vue';
+
+@Component
+export default class MyComponent extends Vue {
+
+    @Filter()
+    static withExclamation(value: string): string {
+        return '!' + value;
+    }
+}
+```
+
+This is like:
+
+```js
+export default {
+    filters: {
+        withExclamation(value) {  
+            return '!' + value;
         }
     }
   }

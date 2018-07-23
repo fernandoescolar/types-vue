@@ -1,6 +1,6 @@
 {
   "name": "types-vue",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Vue typescript decorators",
   "main": "lib/types-vue.umd.js",
   "types": "lib/types-vue.d.ts",

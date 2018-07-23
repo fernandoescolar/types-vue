@@ -4,7 +4,7 @@
         <br />
         <counter-panel />
         <p>
-            <span>Change the title:</span>
+            <span>{{ 'Change the title:' | changeIt }}</span>
             <input type="text" v-model="title" />
         </p>
     </div>
