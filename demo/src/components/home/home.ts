@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Component, Watch } from 'types-vue';
+import { Component, Watch, Filter } from 'types-vue';
 import CounterPanel from './components/counter-panel/counter-panel.vue';
 import HeaderPanel from './components/header-panel/header-panel.vue';
 
