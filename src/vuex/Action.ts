@@ -13,6 +13,8 @@ function createActionFunction<T>(key: string, value: Function, options: ActionOp
             if (options && options.commit) {
                 context.commit(options.commit, actionPayload);
             }
+
+            return actionPayload;
         }
         catch (e) {
             console.error('Could not perform action ' + key.toString());
