@@ -1,4 +1,3 @@
-import { Constructor } from 'vue/types/options';
 import { Action as Act, ActionContext, Payload } from 'vuex';
 import { createVuexDecorator } from "./utils";
 
@@ -6,19 +5,33 @@ export interface ActionOptions {
     commit?: string;
 }
 
-function createActionFunction<T>(key: string, value: Function, options: ActionOptions): Act<T, any> {
-    const action: Act<T, any> = async function (context: ActionContext<T, any>, payload: Payload) {
-        try {
-            const actionPayload = await value.call(context, payload);
-            if (options && options.commit) {
-                context.commit(options.commit, actionPayload);
-            }
+function checkOptionsCommit<T>(options: ActionOptions, context: ActionContext<T, any>, value: any) {
+    if (options && options.commit) {
+        context.commit(options.commit, value);
+    }
+}
 
-            return actionPayload;
-        }
-        catch (e) {
+function createActionFunction<T>(key: string, value: Function, options: ActionOptions): Act<T, any> {
+    const action: Act<T, any> = function (context: ActionContext<T, any>, payload: Payload) {
+        try {
+            let callResult = value.call(context, payload);
+            if (Promise.resolve(callResult) !== callResult) { // it is not a promise
+                checkOptionsCommit<T>(options, context, callResult);
+                return callResult;
+            }
+    
+            return new Promise((resolve, reject) => {
+                callResult.then(
+                    result => {
+                        checkOptionsCommit<T>(options, context, result);
+                        resolve(result);
+                    },
+                    error => {
+                        reject(error);
+                    })
+            });
+        } catch (ex) {
             console.error('Could not perform action ' + key.toString());
-            console.error(e);
         }
     };
 
