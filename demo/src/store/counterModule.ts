@@ -1,4 +1,6 @@
-import { Module, VuexModule, Mutation, Action, Getter } from 'types-vue';
+import { Module, VuexModule, Mutation, Getter } from 'types-vue';
+import { Action } from '../../../src/vuex/Action';
+import { ActionContext } from 'vuex';
 
 @Module({ namespaced: true })
 export default class extends VuexModule {
@@ -28,8 +30,8 @@ export default class extends VuexModule {
         return value;
     }
 
-    @Action({ commit: 'decrement' })
-    decr(value: number): number {
+    @Action({ commit: 'decrement', useContext: true })
+    decr(context: ActionContext<any, any>, value: number): number {
         if (value < 0) {
             return 0;
         }

@@ -8,4 +8,7 @@ export default class NotificationPanelComponent extends Vue {
 
     @MapAction({ namespace: 'counter' })
     incr;
+
+    @MapAction({ namespace: 'counter' })
+    decr;
 }

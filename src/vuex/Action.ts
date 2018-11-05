@@ -3,6 +3,7 @@ import { createVuexDecorator } from "./utils";
 
 export interface ActionOptions {
     commit?: string;
+    useContext?: boolean;
 }
 
 function checkOptionsCommit<T>(options: ActionOptions, context: ActionContext<T, any>, value: any) {
@@ -14,7 +15,9 @@ function checkOptionsCommit<T>(options: ActionOptions, context: ActionContext<T,
 function createActionFunction<T>(key: string, value: Function, options: ActionOptions): Act<T, any> {
     const action: Act<T, any> = function (context: ActionContext<T, any>, payload: Payload) {
         try {
-            let callResult = value.call(context, payload);
+            const arrPayload = payload as any;
+            const parameters = options.useContext ? [context, ...arrPayload] : arrPayload;
+            const callResult = value.call(context, ...parameters);
             if (Promise.resolve(callResult) !== callResult) { // it is not a promise
                 checkOptionsCommit<T>(options, context, callResult);
                 return callResult;

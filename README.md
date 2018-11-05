@@ -367,6 +367,11 @@ export default class extends VuexModule {
         this._counter += value;
     }
 
+    @Mutation()
+    decrement(value: number): void {
+        this._counter -= value;
+    }
+
     @Action({ commit: 'increment' })
     incr(value: number): number {
         if (value < 0) {
@@ -374,6 +379,15 @@ export default class extends VuexModule {
         }
 
         return value;
+    }
+
+    @Action({ useContext: true })
+    decr(context: ActionContext<any, any>, value: number): void {
+        if (value < 0) {
+            return 0;
+        }
+
+        context.commit('decrement', value);
     }
 }
 ```
@@ -389,6 +403,9 @@ export default {
   mutations: {
       increment: function(state, value) {
           state._counter += value;
+      },
+      decrement: function(state, value) {
+          state._counter += value;
       }
   },
   actions: {
@@ -401,6 +418,16 @@ export default {
                 return value;
           }();
           context.commit('increment', result);
+      },
+      decr: function(context, value) {
+          let result = (value) => {
+                if (value < 0) {
+                    return 0;
+                }
+
+                return value;
+          }();
+          context.commit('decrement', result);
       }
   }
 }
