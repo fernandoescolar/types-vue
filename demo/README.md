@@ -1,20 +1,21 @@
 # types-vue-demo
 
-> A Vue.js with Typescript demo project
+A Vue.js with Typescript demo project
 
-## Build Setup
+## Project setup
 
-``` bash
-# install dependencies
+```bash
 npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
 
+### Compiles and hot-reloads for development
+
+```bash
+npm run serve
+```
+
+### Compiles and minifies for production
+
+```bash
+npm run build
+```

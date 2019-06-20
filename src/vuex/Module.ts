@@ -33,7 +33,7 @@ function moduleDecoratorFactory<S> (modOrOpt: ModuleOptions | Function & Mod<S, 
     };
 }
 
-export class VuexModule<S = ThisType<S>, R = any> implements Mod<S, R> {
+export class VuexModule<S = ThisType<any>, R = any> implements Mod<S, R> {
     static namespaced?: boolean;
     static state?: any | (() => any);
     static getters?: GetterTree<any, any>;

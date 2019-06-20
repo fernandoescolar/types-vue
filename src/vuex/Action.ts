@@ -15,7 +15,7 @@ function checkOptionsCommit<T>(options: ActionOptions, context: ActionContext<T,
 function createActionFunction<T>(key: string, value: Function, options: ActionOptions): Act<T, any> {
     const action: Act<T, any> = function (context: ActionContext<T, any>, payload: Payload) {
         try {
-            const arrPayload = payload as any;
+            const arrPayload = Array.isArray(payload) ? payload as any[] : [ payload ];
             const parameters = options.useContext ? [context, ...arrPayload] : arrPayload;
             const callResult = value.call(context, ...parameters);
             if (Promise.resolve(callResult) !== callResult) { // it is not a promise
@@ -34,7 +34,7 @@ function createActionFunction<T>(key: string, value: Function, options: ActionOp
                     })
             });
         } catch (ex) {
-            console.error('Could not perform action ' + key.toString());
+            console.error('Could not perform action ' + key.toString() + ' - ' + ex );
         }
     };
 

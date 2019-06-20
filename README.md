@@ -1,6 +1,6 @@
 # types-vue
 
-Binding helpers for Vuex and vue-class-component
+Binding helpers for Vuex and vue-class-component on steroids
 
 ## Dependencies
 

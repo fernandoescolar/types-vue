@@ -1,5 +1,4 @@
-import { Module, VuexModule, Mutation, Getter } from 'types-vue';
-import { Action } from '../../../src/vuex/Action';
+import { Module, VuexModule, Mutation, Getter, Action } from 'types-vue';
 import { ActionContext } from 'vuex';
 
 @Module({ namespaced: true })
