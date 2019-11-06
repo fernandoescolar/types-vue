@@ -1,13 +1,24 @@
-import { Module, VuexModule, Mutation, Getter, Action } from 'types-vue';
+import { Module, VuexModule, Mutation, Action, Getter } from 'types-vue';
 import { ActionContext } from 'vuex';
 
 @Module({ namespaced: true })
 export default class extends VuexModule {
     _counter: number = 0;
+    _list: string[] = [];
 
     @Getter()
     counter(): number {
         return this._counter;
+    }
+
+    @Getter({ mode: 'value'})
+    listValue(): string[] {
+        return this._list;
+    }
+
+    @Getter({ mode: 'reference'})
+    listReference(): string[] {
+        return this._list;
     }
 
     @Mutation()

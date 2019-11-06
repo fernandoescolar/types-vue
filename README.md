@@ -317,6 +317,46 @@ export default {
 }
 ```
 
+You can determine the access mode to the vuex store `Getter`:
+
+```js
+import { Module, VuexModule, Getter } from 'types-vue';
+
+@Module({ namespaced: true })
+export default class extends VuexModule {
+    _list: string[] = []];
+
+    @Getter({ mode: 'value'})
+    listValue(): string[] {
+        return this._list;
+    }
+
+    @Getter({ mode: 'reference'})
+    listReference(): string[] {
+        return this._list;
+    }
+}
+```
+
+This is like:
+
+```js
+export default {
+  namespaced: true,
+  state: {
+      _counter: 0
+  },
+  getters: {
+      listValue: function(state) {
+          return state._list;
+      },
+      listReference: function(state) {
+          return Object.assign({}, state._list);
+      }
+  }
+}
+```
+
 #### @Mutation
 
 This decorator adds the method to "mutations" vuex module collection.
